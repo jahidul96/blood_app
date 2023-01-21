@@ -39,7 +39,8 @@ export default Donar;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
     backgroundColor: AppColors.WHITE,
     marginBottom: 15,
     borderWidth: 1,

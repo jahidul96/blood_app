@@ -1,22 +1,35 @@
-import { StyleSheet, Text, View, StatusBar, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { AppColors } from "../utils/AppColors";
 import { WIDTH } from "../utils/AppDimension";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Donar from "../components/Donar";
+import { useNavigation } from "@react-navigation/native";
 
 const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const Home = () => {
+  const navigation = useNavigation();
+
+  const gotoProfile = () => {
+    navigation.navigate("Profile");
+  };
   return (
     <View>
       <StatusBar backgroundColor={AppColors.RED} />
 
       {/* topbar content/profileicon content */}
       <View style={styles.profileTopContainer}>
-        <View style={styles.iconWrapper}>
+        <TouchableOpacity style={styles.iconWrapper} onPress={gotoProfile}>
           <Ionicons name="person-circle" size={30} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.inputSample}>
           <Text style={styles.searchText}>Search</Text>
         </View>

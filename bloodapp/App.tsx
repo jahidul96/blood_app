@@ -6,6 +6,7 @@ import Register from "./app/screens/auth/Register";
 import Login from "./app/screens/auth/Login";
 import React from "react";
 import BottomNav from "./app/navigation/BottomNav";
+import Profile from "./app/screens/Profile";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Stack.Screen name="Main" component={BottomNav} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
