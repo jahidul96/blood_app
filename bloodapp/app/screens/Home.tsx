@@ -18,21 +18,24 @@ const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const Home = () => {
   const navigation = useNavigation();
 
-  const gotoProfile = () => {
-    navigation.navigate("Profile");
-  };
   return (
     <View>
       <StatusBar backgroundColor={AppColors.RED} />
 
       {/* topbar content/profileicon content */}
       <View style={styles.profileTopContainer}>
-        <TouchableOpacity style={styles.iconWrapper} onPress={gotoProfile}>
+        <TouchableOpacity
+          style={styles.iconWrapper}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <Ionicons name="person-circle" size={30} />
         </TouchableOpacity>
-        <View style={styles.inputSample}>
+        <TouchableOpacity
+          style={styles.inputSample}
+          onPress={() => navigation.navigate("Search")}
+        >
           <Text style={styles.searchText}>Search</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* all content */}

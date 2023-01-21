@@ -2,8 +2,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { AppColors } from "../utils/AppColors";
+import { useNavigation } from "@react-navigation/native";
 
 const Donar = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       {/* donar profile */}
@@ -27,7 +29,7 @@ const Donar = () => {
         <Text>11/12/22</Text>
       </View>
       <View style={styles.detailsWrapper}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("DonarDetails")}>
           <Text style={styles.btnText}>Details</Text>
         </TouchableOpacity>
       </View>
