@@ -3,9 +3,10 @@ import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { AppColors } from "../utils/AppColors";
 import { useNavigation } from "@react-navigation/native";
+import { Nav } from "../typeInterfaces/typeInterfaces";
 
 const Donar = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<Nav>();
   return (
     <View style={styles.container}>
       {/* donar profile */}

@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { AppColors } from "../utils/AppColors";
 import Home from "../screens/Home";
 import Chat from "../screens/Chat";
+import Post from "../screens/Post";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,10 +14,11 @@ const BottomNav = () => {
       initialRouteName="Main"
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
         tabBarActiveTintColor: AppColors.RED,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: 55,
+          height: 65,
           paddingBottom: 5,
         },
       }}
@@ -28,6 +30,16 @@ const BottomNav = () => {
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={22} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Post"
+        component={Post}
+        options={{
+          tabBarLabel: "Post",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add" color={color} size={22} />
           ),
         }}
       />

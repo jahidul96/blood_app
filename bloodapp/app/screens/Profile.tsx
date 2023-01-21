@@ -5,15 +5,20 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { WIDTH } from "../utils/AppDimension";
 import { AppColors } from "../utils/AppColors";
 import TopBackComp from "../components/TopBackComp";
 import { useNavigation } from "@react-navigation/native";
+import { Nav } from "../typeInterfaces/typeInterfaces";
+import { AuthUserContext } from "../context/authUserContext";
+
+interface user {}
 
 const Profile = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<Nav>();
+
   return (
     <View>
       <TopBackComp text="Profile" onPress={() => navigation.goBack()} />

@@ -6,11 +6,12 @@ import { AppColors } from "../utils/AppColors";
 interface PropsTypes {
   text: string;
   onPress: () => void;
+  extraStyle?: any;
 }
 
-const ButtonComp: FC<PropsTypes> = ({ text, onPress }) => {
+const ButtonComp: FC<PropsTypes> = ({ text, onPress, extraStyle }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.btnStyle}>
+    <TouchableOpacity onPress={onPress} style={[styles.btnStyle, extraStyle]}>
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );

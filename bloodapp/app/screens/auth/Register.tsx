@@ -38,7 +38,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [show, setShow] = useState(false);
   const [newDonar, setNewDonar] = useState(false);
 
-  const onChange = (event: any, selectedDate) => {
+  const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
