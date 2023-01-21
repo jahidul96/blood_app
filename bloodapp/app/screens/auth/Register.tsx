@@ -19,6 +19,7 @@ const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
 
 const sex = ["Male", "Female", "Others"];
+const bloodgroups = ["A+", "B+", "O+", "A-", "B-", "O-"];
 
 interface mainPropstypes {
   navigation?: any;
@@ -27,12 +28,14 @@ interface mainPropstypes {
 const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [showgender, setShowgender] = useState(false);
   const [gender, setGender] = useState("");
+  const [showBloodList, setShowBloodList] = useState(false);
+  const [bloodGroup, setbloodGroup] = useState("");
 
   const register = () => {
     console.log("btn cliked");
   };
   return (
-    <ScrollView style={styles.root}>
+    <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <StatusBar backgroundColor={AppColors.RED} />
       <View style={styles.logoWrapper}>
         <Image source={{ uri: img }} style={styles.imgStyle} />
@@ -82,6 +85,17 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
         </View>
 
         <View style={styles.rowStyle}>
+          <TextComp text="Blood-Group" textExtraStyle={styles.textExtraStyle} />
+          <View style={{ width: "70%" }}>
+            <DropDownList
+              placeholder="Group"
+              show={showBloodList}
+              setShow={setShowBloodList}
+              value={bloodGroup}
+            />
+          </View>
+        </View>
+        <View style={styles.rowStyle}>
           <TextComp text="Sex" textExtraStyle={styles.textExtraStyle} />
           <View style={{ width: "70%" }}>
             <DropDownList
@@ -118,6 +132,14 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           setValue={setGender}
           setShow={setShowgender}
           viewStyle={styles.dropdownItemStyle}
+        />
+      )}
+      {showBloodList && (
+        <DropDownItems
+          data={bloodgroups}
+          setValue={setbloodGroup}
+          setShow={setShowBloodList}
+          viewStyle={[styles.dropdownItemStyle, { height: HEIGHT / 2.4 }]}
         />
       )}
     </ScrollView>
