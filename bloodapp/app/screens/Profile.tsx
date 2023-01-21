@@ -23,11 +23,11 @@ const Profile = () => {
         <Text style={styles.name}>Akash</Text>
         <Text style={styles.email}>Akash@gmail.com</Text>
         <View style={styles.rowStyle}>
-          <Text>Total Donated </Text>
+          <Text>Total Donated = </Text>
           <Text>4</Text>
         </View>
         <View style={[styles.rowStyle, { marginTop: 5 }]}>
-          <Text>Last Donated Date ={">"} </Text>
+          <Text>Last Donated Date = </Text>
           <Text>12/12/22</Text>
         </View>
 
@@ -57,12 +57,17 @@ export default Profile;
 
 const DonateHistory = () => (
   <View style={styles.lastDonateDateContainer}>
-    <View>
+    <View
+      style={[
+        styles.rowStyle,
+        { justifyContent: "space-between", marginBottom: 7 },
+      ]}
+    >
       <Text>Donated address</Text>
-      <Text>Donated Date</Text>
-    </View>
-    <View>
       <Text>Ctg, hospital</Text>
+    </View>
+    <View style={[styles.rowStyle, { justifyContent: "space-between" }]}>
+      <Text>Donated Date</Text>
       <Text>12/12/22</Text>
     </View>
   </View>
@@ -133,7 +138,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: AppColors.LIGHTSKYBLUE,
     borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 });

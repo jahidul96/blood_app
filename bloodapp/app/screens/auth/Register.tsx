@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   StatusBar,
+  Platform,
 } from "react-native";
 import React, { FC, useState } from "react";
 import { AppColors } from "../../utils/AppColors";
@@ -14,6 +15,7 @@ import DropDownList, { DropDownItems } from "../../components/DropDownList";
 import { HEIGHT } from "../../utils/AppDimension";
 import ButtonComp from "../../components/ButtonComp";
 import { TouchableOpacity } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -30,17 +32,50 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [gender, setGender] = useState("");
   const [showBloodList, setShowBloodList] = useState(false);
   const [bloodGroup, setbloodGroup] = useState("");
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [userdate, setUserDate] = useState(null);
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+  const [newDonar, setNewDonar] = useState(false);
+
+  const onChange = (event: any, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    setUserDate(currentDate);
+  };
+
+  const showMode = (currentMode: any) => {
+    if (Platform.OS === "android") {
+      //   setShow(false);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+    setShow(true);
+  };
 
   const register = () => {
+    if (userdate == null) {
+      return alert("put a valid date");
+    }
     console.log("btn cliked");
   };
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <StatusBar backgroundColor={AppColors.RED} />
+
+      {/* logo  */}
       <View style={styles.logoWrapper}>
         <Image source={{ uri: img }} style={styles.imgStyle} />
       </View>
+
+      {/* form content */}
       <View style={styles.formWrapper}>
+        {/* name input */}
         <View style={styles.rowStyle}>
           <TextComp text="Name" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -48,6 +83,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             inputExtraStyle={styles.inputExtraStyle}
           />
         </View>
+
+        {/* email  */}
         <View style={styles.rowStyle}>
           <TextComp text="Email" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -55,6 +92,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             inputExtraStyle={styles.inputExtraStyle}
           />
         </View>
+
+        {/* password */}
         <View style={styles.rowStyle}>
           <TextComp text="Password" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -62,6 +101,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             inputExtraStyle={styles.inputExtraStyle}
           />
         </View>
+
+        {/* phone */}
         <View style={styles.rowStyle}>
           <TextComp text="Phone" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -69,6 +110,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             inputExtraStyle={styles.inputExtraStyle}
           />
         </View>
+
+        {/* address */}
         <View style={styles.rowStyle}>
           <TextComp text="Addres" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -76,6 +119,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             inputExtraStyle={styles.inputExtraStyle}
           />
         </View>
+
+        {/* division */}
         <View style={styles.rowStyle}>
           <TextComp text="Division" textExtraStyle={styles.textExtraStyle} />
           <InputComp
@@ -84,6 +129,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           />
         </View>
 
+        {/* blood group */}
         <View style={styles.rowStyle}>
           <TextComp text="Blood-Group" textExtraStyle={styles.textExtraStyle} />
           <View style={{ width: "70%" }}>
@@ -95,6 +141,8 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             />
           </View>
         </View>
+
+        {/* gender */}
         <View style={styles.rowStyle}>
           <TextComp text="Sex" textExtraStyle={styles.textExtraStyle} />
           <View style={{ width: "70%" }}>
@@ -106,8 +154,49 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             />
           </View>
         </View>
+
+        {/* last donate date */}
+        <View style={styles.rowStyle}>
+          <TextComp
+            text="Last Donate!"
+            textExtraStyle={styles.textExtraStyle}
+          />
+          <View style={{ width: "60%" }}>
+            <TouchableOpacity onPress={showDatepicker}>
+              <Text>
+                {userdate == null
+                  ? "Select A Date"
+                  : userdate?.toLocaleString()}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* new donar */}
+
+        <View style={styles.rowStyle}>
+          <TextComp text="New donar!" textExtraStyle={styles.textExtraStyle} />
+          <View style={{ width: "60%" }}>
+            <TouchableOpacity
+              style={styles.newDonarCheckContainer}
+              onPress={() => setNewDonar(!newDonar)}
+            >
+              {newDonar && (
+                <View
+                  style={{
+                    width: 10,
+                    height: 10,
+                    backgroundColor: AppColors.RED,
+                    borderRadius: 100,
+                  }}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
+      {/* login page text */}
       <View
         style={{
           width: "100%",
@@ -126,6 +215,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
         </View>
       </View>
 
+      {/* gender select dropdown */}
       {showgender && (
         <DropDownItems
           data={sex}
@@ -134,12 +224,25 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           viewStyle={styles.dropdownItemStyle}
         />
       )}
+
+      {/* blood group droupdown */}
       {showBloodList && (
         <DropDownItems
           data={bloodgroups}
           setValue={setbloodGroup}
           setShow={setShowBloodList}
           viewStyle={[styles.dropdownItemStyle, { height: HEIGHT / 2.4 }]}
+        />
+      )}
+
+      {/* datepicker model */}
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          is24Hour={true}
+          onChange={onChange}
+          minimumDate={new Date(2022, 0, 1)}
         />
       )}
     </ScrollView>
@@ -158,7 +261,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 
   imgStyle: {
@@ -166,7 +269,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   formWrapper: {
-    marginTop: 20,
+    marginTop: 10,
     width: "100%",
   },
   rowStyle: {
@@ -212,6 +315,15 @@ const styles = StyleSheet.create({
     top: HEIGHT / 3,
     left: 0,
     backgroundColor: AppColors.LIGHTSKYBLUE,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  newDonarCheckContainer: {
+    width: 18,
+    height: 18,
+    borderColor: AppColors.BLACK,
+    borderWidth: 2,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
