@@ -6,6 +6,7 @@ import {
   ScrollView,
   StatusBar,
   Platform,
+  Alert,
 } from "react-native";
 import React, { FC, useState } from "react";
 import { AppColors } from "../../utils/AppColors";
@@ -55,7 +56,19 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
 
   const showDatepicker = () => {
     showMode("date");
+    if (newDonar == true) {
+      return Alert.alert("You have selected as a new donar!!");
+    }
     setShow(true);
+  };
+
+  const checkDonar = () => {
+    if (newDonar == false) {
+      setNewDonar(true);
+      setUserDate(null);
+    } else {
+      setNewDonar(false);
+    }
   };
 
   const register = () => {
@@ -179,7 +192,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <View style={{ width: "60%" }}>
             <TouchableOpacity
               style={styles.newDonarCheckContainer}
-              onPress={() => setNewDonar(!newDonar)}
+              onPress={checkDonar}
             >
               {newDonar && (
                 <View
