@@ -1,4 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const dbConnection = require("./db");
+
 require("dotenv").config();
 
 // module imports
@@ -16,12 +19,12 @@ app.use(express.json());
 // endpoint for request
 app.use("/auth", authRoutes);
 
-//check route
-app.get("/", (req, res) => {
-  res.json({
-    message: "this is home route",
-  });
-});
+// db connection
+
+mongoose.set("strictQuery", true);
+dbConnection()
+  .then(() => console.log("db connetcted"))
+  .catch((e) => console.log(e.message));
 
 // server port run
 app.listen(PORT, () => console.log("server is running"));
