@@ -21,6 +21,8 @@ const Profile = () => {
   const navigation = useNavigation<Nav>();
   const { authUser, setAuthUser } = useContext(AuthUserContext);
 
+  console.log(authUser);
+
   const addDonatedDate = () => {
     AsyncStorage.clear();
     setAuthUser(null);

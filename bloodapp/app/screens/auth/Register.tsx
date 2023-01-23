@@ -135,10 +135,10 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   };
 
   const gotoLogin = () => {
-    // if (loading) {
-    //   return;
-    // }
-    // navigation.navigate("Login");
+    if (loading) {
+      return;
+    }
+    navigation.navigate("Login");
     setLoading(false);
   };
 

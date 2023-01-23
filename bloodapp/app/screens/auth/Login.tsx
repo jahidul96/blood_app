@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from "react-native";
 import React from "react";
 import { AppColors } from "../../utils/AppColors";
@@ -13,6 +14,8 @@ import ButtonComp from "../../components/ButtonComp";
 import { TextComp } from "../../components/TextComp";
 import { FC, useState } from "react";
 import { authUserFunc } from "../../api/authFunc";
+import Indicator from "../../components/Indicator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface mainPropstypes {
   navigation?: any;
@@ -24,25 +27,42 @@ const img =
 const Login: FC<mainPropstypes> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const loginUser = () => {
+  const loginUser = async () => {
+    setLoading(true);
+
+    if (!email || !password) {
+      setLoading(false);
+      return Alert.alert("Fill all the field'd");
+    }
     const data = {
       email,
       password,
     };
     const routePath = "/auth/login";
-    authUserFunc(data, routePath)
-      .then((data) => {
-        console.log("succes");
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+
+    try {
+      authUserFunc(data, routePath)
+        .then(async (data) => {
+          // console.log("succes");
+          // console.log(data);
+          Alert.alert(data.message);
+          const user = JSON.stringify(data.user);
+          await AsyncStorage.setItem("user", user);
+          navigation.navigate("Main");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <View style={styles.root}>
       <StatusBar backgroundColor={AppColors.RED} />
+      {loading && <Indicator />}
       <View style={styles.logoWrapper}>
         <Image source={{ uri: img }} style={styles.imgStyle} />
       </View>
