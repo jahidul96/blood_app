@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.WHITE,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: AppColors.LIGHTSKYBLUE,
+    borderColor: AppColors.RED,
     borderRadius: 10,
   },
   profileContainer: {

@@ -5,8 +5,9 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { AppColors } from "../utils/AppColors";
 import { WIDTH } from "../utils/AppDimension";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -15,12 +16,17 @@ import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
 import { getAuthUserData } from "../utils/LocalStorage";
 import { AuthUserContext } from "../context/authUserContext";
+import Post from "../components/Post";
 
 const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const tabs = ["Posts", "Users"];
 
 const Home = () => {
   const navigation = useNavigation<Nav>();
   const { authUser, setAuthUser } = useContext(AuthUserContext);
+  const [initialTab, setInitialTab] = useState("Posts");
+  const [tabloading, setTabLoading] = useState(false);
 
   useEffect(() => {
     navigation.addListener("focus", () => {
@@ -36,6 +42,14 @@ const Home = () => {
     authUser == null
       ? navigation.navigate("Register")
       : navigation.navigate("Profile");
+  };
+
+  const changeTab = (tab: string) => {
+    setTabLoading(true);
+    setTimeout(() => {
+      setInitialTab(tab);
+      setTabLoading(false);
+    }, 1000);
   };
 
   return (
@@ -54,13 +68,34 @@ const Home = () => {
         </TouchableOpacity>
       </View>
 
+      {/* tabs  */}
+      <View style={styles.tabContainer}>
+        {tabs.map((tab, i) => (
+          <TouchableOpacity
+            style={[
+              styles.tabStyle,
+              initialTab == tab && { backgroundColor: AppColors.LIGHTSKYBLUE },
+            ]}
+            key={i}
+            onPress={() => changeTab(tab)}
+          >
+            <Text style={styles.tabText}>{tab}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       {/* all content */}
       <ScrollView>
         <View style={styles.contentWrapper}>
-          {donaters.map((data) => (
-            <Donar key={data} />
-          ))}
-          {/* <Donar /> */}
+          {tabloading ? (
+            <View style={styles.lodderStyle}>
+              <ActivityIndicator size={"large"} color={AppColors.RED} />
+            </View>
+          ) : initialTab == "Posts" ? (
+            donaters.map((data) => <Post key={data} />)
+          ) : (
+            donaters.map((data) => <Donar key={data} />)
+          )}
         </View>
       </ScrollView>
     </View>
@@ -96,6 +131,36 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     paddingHorizontal: 15,
-    paddingBottom: 70,
+    paddingBottom: 130,
+  },
+
+  tabContainer: {
+    width: "100%",
+    height: 55,
+    backgroundColor: AppColors.WHITE,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderTopColor: AppColors.LIGHTSKYBLUE,
+    borderTopWidth: 1,
+    borderBottomColor: AppColors.LIGHTSKYBLUE,
+    borderBottomWidth: 1,
+  },
+
+  tabStyle: {
+    width: "50%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabText: {
+    fontWeight: "600",
+    fontSize: 17,
+  },
+  lodderStyle: {
+    flex: 1,
+    justifyContent: "center",
+    marginTop: 100,
+    alignItems: "center",
   },
 });
