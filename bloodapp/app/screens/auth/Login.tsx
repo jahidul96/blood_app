@@ -11,7 +11,8 @@ import { AppColors } from "../../utils/AppColors";
 import { InputComp } from "../../components/InputComp";
 import ButtonComp from "../../components/ButtonComp";
 import { TextComp } from "../../components/TextComp";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { authUserFunc } from "../../api/authFunc";
 
 interface mainPropstypes {
   navigation?: any;
@@ -21,21 +22,39 @@ const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
 
 const Login: FC<mainPropstypes> = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginUser = () => {
+    const data = {
+      email,
+      password,
+    };
+    const routePath = "/auth/login";
+    authUserFunc(data, routePath)
+      .then((data) => {
+        console.log("succes");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
   return (
     <View style={styles.root}>
       <StatusBar backgroundColor={AppColors.RED} />
       <View style={styles.logoWrapper}>
         <Image source={{ uri: img }} style={styles.imgStyle} />
       </View>
-      <InputComp placeholder="Email" />
-      <InputComp placeholder="Password" />
+      <InputComp placeholder="Email" setValue={setEmail} />
+      <InputComp placeholder="Password" setValue={setPassword} />
       <View
         style={{
           marginTop: 10,
           width: "100%",
         }}
       >
-        <ButtonComp text="Sign Up" onPress={() => {}} />
+        <ButtonComp text="Sign Up" onPress={loginUser} />
         <View style={styles.signupTextContainer}>
           <TextComp
             text="Don't Have An Account ?"

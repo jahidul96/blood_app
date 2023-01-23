@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    addres: {
+    address: {
       type: String,
       required: true,
     },
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    bloodgroup: {
+    bloodGroup: {
       type: String,
       required: true,
     },

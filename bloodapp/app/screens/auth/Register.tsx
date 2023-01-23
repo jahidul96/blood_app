@@ -17,6 +17,7 @@ import { HEIGHT } from "../../utils/AppDimension";
 import ButtonComp from "../../components/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { authUserFunc } from "../../api/authFunc";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -34,10 +35,16 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [showBloodList, setShowBloodList] = useState(false);
   const [bloodGroup, setbloodGroup] = useState("");
   const [date, setDate] = useState(new Date(Date.now()));
-  const [userdate, setUserDate] = useState(null);
+  const [userdate, setUserDate] = useState<null | any>(null);
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [newDonar, setNewDonar] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [division, setDivision] = useState("");
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
@@ -71,11 +78,29 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
     }
   };
 
+  // register a user!!
   const register = () => {
-    if (userdate == null) {
-      return alert("put a valid date");
-    }
-    console.log("btn cliked");
+    const data = {
+      name,
+      email,
+      password,
+      phone,
+      gender,
+      address,
+      division,
+      bloodGroup,
+      lastdonatedate: userdate,
+      newDonar,
+    };
+    const routePath = "/auth/register";
+    authUserFunc(data, routePath)
+      .then((data) => {
+        console.log("succes");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
@@ -94,6 +119,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Name"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setName}
           />
         </View>
 
@@ -103,6 +129,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Email"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setEmail}
           />
         </View>
 
@@ -112,6 +139,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Password"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setPassword}
           />
         </View>
 
@@ -121,6 +149,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Phone no"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setPhone}
           />
         </View>
 
@@ -130,6 +159,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Addres"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setAddress}
           />
         </View>
 
@@ -139,6 +169,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           <InputComp
             placeholder="Division"
             inputExtraStyle={styles.inputExtraStyle}
+            setValue={setDivision}
           />
         </View>
 

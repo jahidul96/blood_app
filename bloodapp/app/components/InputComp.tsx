@@ -6,12 +6,18 @@ import React from "react";
 interface Props {
   placeholder: string;
   inputExtraStyle?: any;
+  setValue?: any;
 }
 
-export const InputComp: FC<Props> = ({ placeholder, inputExtraStyle }) => (
+export const InputComp: FC<Props> = ({
+  placeholder,
+  inputExtraStyle,
+  setValue,
+}) => (
   <TextInput
     style={[styles.inputStyle, inputExtraStyle]}
     placeholder={placeholder}
+    onChangeText={(val) => setValue(val)}
   />
 );
 
