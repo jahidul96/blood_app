@@ -47,7 +47,7 @@ const Login: FC<mainPropstypes> = ({ navigation }) => {
         <Image source={{ uri: img }} style={styles.imgStyle} />
       </View>
       <InputComp placeholder="Email" setValue={setEmail} />
-      <InputComp placeholder="Password" setValue={setPassword} />
+      <InputComp placeholder="Password" setValue={setPassword} secure={true} />
       <View
         style={{
           marginTop: 10,

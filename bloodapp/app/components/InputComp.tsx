@@ -7,17 +7,20 @@ interface Props {
   placeholder: string;
   inputExtraStyle?: any;
   setValue?: any;
+  secure?: boolean;
 }
 
 export const InputComp: FC<Props> = ({
   placeholder,
   inputExtraStyle,
   setValue,
+  secure,
 }) => (
   <TextInput
     style={[styles.inputStyle, inputExtraStyle]}
     placeholder={placeholder}
     onChangeText={(val) => setValue(val)}
+    secureTextEntry={secure}
   />
 );
 

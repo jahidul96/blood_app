@@ -7,11 +7,21 @@ interface PropsTypes {
   text: string;
   onPress: () => void;
   extraStyle?: any;
+  disabled?: boolean;
 }
 
-const ButtonComp: FC<PropsTypes> = ({ text, onPress, extraStyle }) => {
+const ButtonComp: FC<PropsTypes> = ({
+  text,
+  onPress,
+  extraStyle,
+  disabled,
+}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.btnStyle, extraStyle]}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={[styles.btnStyle, extraStyle]}
+    >
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );

@@ -21,7 +21,6 @@ const DropDownList: FC<PropsTypes> = ({
       style={styles.container}
       onPress={() => {
         setShow(!show);
-        console.log(show);
       }}
     >
       <Text>{value == "" ? placeholder : value}</Text>

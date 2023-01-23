@@ -13,11 +13,18 @@ import TopBackComp from "../components/TopBackComp";
 import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
 import { AuthUserContext } from "../context/authUserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface user {}
 
 const Profile = () => {
   const navigation = useNavigation<Nav>();
+  const { authUser, setAuthUser } = useContext(AuthUserContext);
+
+  const addDonatedDate = () => {
+    AsyncStorage.clear();
+    setAuthUser(null);
+  };
 
   return (
     <View>
@@ -39,7 +46,7 @@ const Profile = () => {
         <TouchableOpacity style={styles.editBtn}>
           <Text style={styles.editBtnText}>Edit Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={addDonatedDate}>
           <Text style={styles.addBtnText}>Add new Donated Date</Text>
         </TouchableOpacity>
       </View>

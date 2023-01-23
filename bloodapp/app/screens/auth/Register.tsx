@@ -7,6 +7,7 @@ import {
   StatusBar,
   Platform,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { FC, useState } from "react";
 import { AppColors } from "../../utils/AppColors";
@@ -18,6 +19,8 @@ import ButtonComp from "../../components/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { authUserFunc } from "../../api/authFunc";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Indicator from "../../components/Indicator";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -45,6 +48,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [division, setDivision] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
@@ -72,14 +76,32 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const checkDonar = () => {
     if (newDonar == false) {
       setNewDonar(true);
-      setUserDate(null);
+      setUserDate("");
     } else {
       setNewDonar(false);
     }
   };
 
   // register a user!!
-  const register = () => {
+  const register = async () => {
+    setLoading(true);
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !phone ||
+      !gender ||
+      !address ||
+      !division ||
+      !bloodGroup
+    ) {
+      setLoading(false);
+      return Alert.alert("Fill all the field's!");
+    }
+    if (newDonar && userdate) {
+      setLoading(false);
+      setUserDate("");
+    }
     const data = {
       name,
       email,
@@ -92,19 +114,47 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
       lastdonatedate: userdate,
       newDonar,
     };
-    const routePath = "/auth/register";
-    authUserFunc(data, routePath)
-      .then((data) => {
-        console.log("succes");
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    try {
+      const routePath = "/auth/register";
+      authUserFunc(data, routePath)
+        .then(async (data) => {
+          // console.log("succes");
+          // console.log(data);
+          Alert.alert(data.message);
+          const user = JSON.stringify(data.user);
+          await AsyncStorage.setItem("user", user);
+          navigation.navigate("Main");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
+
+  const gotoLogin = () => {
+    // if (loading) {
+    //   return;
+    // }
+    // navigation.navigate("Login");
+    setLoading(false);
+  };
+
+  // styles
+  const extraBtnStyle = {
+    backgroundColor: loading ? AppColors.LIGHTSKYBLUE : AppColors.RED,
+  };
+
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <StatusBar backgroundColor={AppColors.RED} />
+
+      {/* lodding comp */}
+      {loading && <Indicator />}
+
+      {/* all content */}
 
       {/* logo  */}
       <View style={styles.logoWrapper}>
@@ -140,6 +190,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             placeholder="Password"
             inputExtraStyle={styles.inputExtraStyle}
             setValue={setPassword}
+            secure={true}
           />
         </View>
 
@@ -247,13 +298,18 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           marginVertical: 10,
         }}
       >
-        <ButtonComp text="Sign In" onPress={register} />
+        <ButtonComp
+          text="Sign In"
+          onPress={register}
+          disabled={loading ? true : false}
+          extraStyle={extraBtnStyle}
+        />
         <View style={styles.signupTextContainer}>
           <TextComp
             text="Already Have Account ?"
             textExtraStyle={{ fontSize: 16 }}
           />
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={gotoLogin}>
             <TextComp text="Sign In!" textExtraStyle={styles.linkText} />
           </TouchableOpacity>
         </View>
@@ -298,7 +354,7 @@ export default Register;
 const styles = StyleSheet.create({
   root: {
     backgroundColor: AppColors.WHITE,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
   },
 
   logoWrapper: {
