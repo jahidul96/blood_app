@@ -19,9 +19,9 @@ interface user {}
 
 const Profile = () => {
   const navigation = useNavigation<Nav>();
-  const { authUser, setAuthUser } = useContext(AuthUserContext);
+  const { authUser, setAuthUser } = useContext<any>(AuthUserContext);
 
-  console.log(authUser);
+  // console.log(authUser);
 
   const addDonatedDate = () => {
     AsyncStorage.clear();

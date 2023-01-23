@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import React, { useEffect, useContext, useState } from "react";
 import { AppColors } from "../utils/AppColors";
@@ -20,15 +21,22 @@ import Post from "../components/Post";
 
 const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const tabs = ["Posts", "Users"];
+const img =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
+
+const tabs = ["Posts", "Donars"];
 
 const Home = () => {
   const navigation = useNavigation<Nav>();
-  const { authUser, setAuthUser } = useContext(AuthUserContext);
+  const { authUser, setAuthUser } = useContext<any>(AuthUserContext);
   const [initialTab, setInitialTab] = useState("Posts");
   const [tabloading, setTabLoading] = useState(false);
+  const [appLoading, setAppLoading] = useState(true);
 
   useEffect(() => {
+    setTimeout(() => {
+      setAppLoading(false);
+    }, 2000);
     navigation.addListener("focus", () => {
       getAuthUserData()
         .then((val) => {
@@ -53,51 +61,65 @@ const Home = () => {
   };
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <StatusBar backgroundColor={AppColors.RED} />
-      {/* topbar content/profileicon content */}
-      <View style={styles.profileTopContainer}>
-        <TouchableOpacity style={styles.iconWrapper} onPress={gotoProfile}>
-          <Ionicons name="person-circle" size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.inputSample}
-          onPress={() => navigation.navigate("Search")}
-        >
-          <Text style={styles.searchText}>Search</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* tabs  */}
-      <View style={styles.tabContainer}>
-        {tabs.map((tab, i) => (
-          <TouchableOpacity
-            style={[
-              styles.tabStyle,
-              initialTab == tab && { backgroundColor: AppColors.LIGHTSKYBLUE },
-            ]}
-            key={i}
-            onPress={() => changeTab(tab)}
-          >
-            <Text style={styles.tabText}>{tab}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* all content */}
-      <ScrollView>
-        <View style={styles.contentWrapper}>
-          {tabloading ? (
-            <View style={styles.lodderStyle}>
-              <ActivityIndicator size={"large"} color={AppColors.RED} />
-            </View>
-          ) : initialTab == "Posts" ? (
-            donaters.map((data) => <Post key={data} />)
-          ) : (
-            donaters.map((data) => <Donar key={data} />)
-          )}
+      {appLoading ? (
+        <View style={styles.apploadingContainer}>
+          <Image source={{ uri: img }} style={styles.imgStyle} />
         </View>
-      </ScrollView>
+      ) : (
+        <>
+          {/* topbar content/profileicon content */}
+          <View style={styles.profileTopContainer}>
+            <TouchableOpacity style={styles.iconWrapper} onPress={gotoProfile}>
+              <Ionicons name="person-circle" size={30} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.inputSample}
+              onPress={() => navigation.navigate("Search")}
+            >
+              <Text style={styles.searchText}>Search</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* tabs  */}
+          <View style={styles.tabContainer}>
+            {tabs.map((tab, i) => (
+              <TouchableOpacity
+                style={[
+                  styles.tabStyle,
+                  initialTab == tab && {
+                    backgroundColor: AppColors.LIGHTSKYBLUE,
+                  },
+                ]}
+                key={i}
+                onPress={() => changeTab(tab)}
+              >
+                <Text style={styles.tabText}>{tab}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* all content */}
+          <ScrollView>
+            <View style={styles.contentWrapper}>
+              {tabloading ? (
+                <View style={styles.lodderStyle}>
+                  <ActivityIndicator size={"large"} color={AppColors.RED} />
+                </View>
+              ) : initialTab == "Posts" ? (
+                donaters.map((data) => <Post key={data} />)
+              ) : (
+                donaters.map((data) => <Donar key={data} />)
+              )}
+            </View>
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 };
@@ -105,9 +127,19 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  apploadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: AppColors.WHITE,
+  },
+  imgStyle: {
+    width: 120,
+    height: 100,
+  },
   profileTopContainer: {
     width: WIDTH,
-    height: 65,
+    height: 60,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -119,7 +151,7 @@ const styles = StyleSheet.create({
   },
   inputSample: {
     width: "85%",
-    height: 40,
+    height: 37,
     backgroundColor: "#ddd",
     justifyContent: "center",
     paddingLeft: 10,
@@ -131,12 +163,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     paddingHorizontal: 15,
-    paddingBottom: 130,
   },
 
   tabContainer: {
     width: "100%",
-    height: 55,
+    height: 48,
     backgroundColor: AppColors.WHITE,
     flexDirection: "row",
     alignItems: "center",
@@ -155,7 +186,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontWeight: "600",
-    fontSize: 17,
+    fontSize: 16,
   },
   lodderStyle: {
     flex: 1,
