@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 // model imports
 const User = require("../models/userModel");
 
+// register route
 router.post("/register", async (req, res) => {
   const { email } = req.body;
   const salt = 10;
@@ -23,6 +24,37 @@ router.post("/register", async (req, res) => {
       message: "user created",
       user,
     });
+  } catch (error) {
+    res.json({
+      message: "something went wrong!!",
+    });
+  }
+});
+
+// login route
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      const comparedPass = await bcrypt.compare(password, userExist.password);
+      if (comparedPass) {
+        res.status(200).json({
+          message: "Login succesfull",
+          user: userExist,
+        });
+      } else {
+        res.status(403).json({
+          message: "wrong creadential's",
+        });
+      }
+    } else {
+      res.status(403).json({
+        message: "wrong creadential's",
+      });
+    }
   } catch (error) {
     res.json({
       message: "something went wrong!!",
