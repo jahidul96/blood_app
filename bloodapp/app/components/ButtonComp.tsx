@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { FC } from "react";
 import { AppColors } from "../utils/AppColors";
@@ -8,6 +14,7 @@ interface PropsTypes {
   onPress: () => void;
   extraStyle?: any;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const ButtonComp: FC<PropsTypes> = ({
@@ -15,6 +22,7 @@ const ButtonComp: FC<PropsTypes> = ({
   onPress,
   extraStyle,
   disabled,
+  loading,
 }) => {
   return (
     <TouchableOpacity
@@ -22,7 +30,11 @@ const ButtonComp: FC<PropsTypes> = ({
       disabled={disabled}
       style={[styles.btnStyle, extraStyle]}
     >
-      <Text style={styles.text}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator size={"small"} color={AppColors.RED} />
+      ) : (
+        <Text style={styles.text}>{text}</Text>
+      )}
     </TouchableOpacity>
   );
 };

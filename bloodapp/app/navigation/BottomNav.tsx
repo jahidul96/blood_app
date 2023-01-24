@@ -29,7 +29,7 @@ const BottomNav = () => {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={22} />
+            <Ionicons name="home" color={color} size={25} />
           ),
         }}
       />
@@ -39,7 +39,7 @@ const BottomNav = () => {
         options={{
           tabBarLabel: "Post",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add" color={color} size={22} />
+            <Ionicons name="add" color={color} size={32} />
           ),
         }}
       />
@@ -49,7 +49,7 @@ const BottomNav = () => {
         options={{
           tabBarLabel: "Chat",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbox-ellipses-outline" color={color} size={22} />
+            <Ionicons name="chatbox-ellipses-outline" color={color} size={26} />
           ),
         }}
       />

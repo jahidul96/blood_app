@@ -14,7 +14,6 @@ import ButtonComp from "../../components/ButtonComp";
 import { TextComp } from "../../components/TextComp";
 import { FC, useState } from "react";
 import { authUserFunc } from "../../api/authFunc";
-import Indicator from "../../components/Indicator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface mainPropstypes {
@@ -42,27 +41,33 @@ const Login: FC<mainPropstypes> = ({ navigation }) => {
     };
     const routePath = "/auth/login";
 
-    try {
-      authUserFunc(data, routePath)
-        .then(async (data) => {
-          // console.log("succes");
-          // console.log(data);
-          Alert.alert(data.message);
-          const user = JSON.stringify(data.user);
-          await AsyncStorage.setItem("user", user);
-          navigation.navigate("Main");
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    } catch (error) {
-      setLoading(false);
-    }
+    setTimeout(() => {
+      try {
+        authUserFunc(data, routePath)
+          .then(async (data) => {
+            // console.log("succes");
+            // console.log(data);
+            Alert.alert(data.message);
+            const user = JSON.stringify(data.user);
+            await AsyncStorage.setItem("user", user);
+            navigation.navigate("Main");
+          })
+          .catch((err) => {
+            console.log(err.message);
+            setLoading(false);
+          });
+      } catch (error) {
+        setLoading(false);
+      }
+    }, 2000);
+  };
+
+  const extraBtnStyle = {
+    backgroundColor: loading ? AppColors.LIGHTSKYBLUE : AppColors.RED,
   };
   return (
     <View style={styles.root}>
       <StatusBar backgroundColor={AppColors.RED} />
-      {loading && <Indicator />}
       <View style={styles.logoWrapper}>
         <Image source={{ uri: img }} style={styles.imgStyle} />
       </View>
@@ -74,7 +79,13 @@ const Login: FC<mainPropstypes> = ({ navigation }) => {
           width: "100%",
         }}
       >
-        <ButtonComp text="Sign Up" onPress={loginUser} />
+        <ButtonComp
+          text="Sign Up"
+          onPress={loginUser}
+          extraStyle={extraBtnStyle}
+          disabled={loading ? true : false}
+          loading={loading}
+        />
         <View style={styles.signupTextContainer}>
           <TextComp
             text="Don't Have An Account ?"

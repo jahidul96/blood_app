@@ -20,7 +20,6 @@ import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { authUserFunc } from "../../api/authFunc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Indicator from "../../components/Indicator";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -151,9 +150,6 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <StatusBar backgroundColor={AppColors.RED} />
 
-      {/* lodding comp */}
-      {loading && <Indicator />}
-
       {/* all content */}
 
       {/* logo  */}
@@ -164,65 +160,46 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
       {/* form content */}
       <View style={styles.formWrapper}>
         {/* name input */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Name" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Name"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setName}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Name"}
+          text="Name"
+          setValue={setName}
+        />
 
         {/* email  */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Email" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Email"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setEmail}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Email"}
+          text="Email"
+          setValue={setEmail}
+        />
 
         {/* password */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Password" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Password"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setPassword}
-            secure={true}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Password"}
+          text="Password"
+          setValue={setPassword}
+        />
 
         {/* phone */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Phone" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Phone no"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setPhone}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Phone"}
+          text="Phone"
+          setValue={setPhone}
+        />
 
         {/* address */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Addres" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Addres"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setAddress}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Addres"}
+          text="Addres"
+          setValue={setPhone}
+        />
 
         {/* division */}
-        <View style={styles.rowStyle}>
-          <TextComp text="Division" textExtraStyle={styles.textExtraStyle} />
-          <InputComp
-            placeholder="Division"
-            inputExtraStyle={styles.inputExtraStyle}
-            setValue={setDivision}
-          />
-        </View>
+        <SingleInputTextComp
+          placeholder={"Division"}
+          text="Division"
+          setValue={setDivision}
+        />
 
         {/* blood group */}
         <View style={styles.rowStyle}>
@@ -268,7 +245,6 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
         </View>
 
         {/* new donar */}
-
         <View style={styles.rowStyle}>
           <TextComp text="New donar!" textExtraStyle={styles.textExtraStyle} />
           <View style={{ width: "60%" }}>
@@ -303,6 +279,7 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           onPress={register}
           disabled={loading ? true : false}
           extraStyle={extraBtnStyle}
+          loading={loading}
         />
         <View style={styles.signupTextContainer}>
           <TextComp
@@ -350,6 +327,27 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
 };
 
 export default Register;
+
+// SingleInputTextComp sub reuseable component
+interface CompProps {
+  text: string;
+  placeholder: string;
+  setValue: any;
+}
+const SingleInputTextComp: FC<CompProps> = ({
+  text,
+  setValue,
+  placeholder,
+}) => (
+  <View style={styles.rowStyle}>
+    <TextComp text={text} textExtraStyle={styles.textExtraStyle} />
+    <InputComp
+      placeholder={placeholder}
+      inputExtraStyle={styles.inputExtraStyle}
+      setValue={setValue}
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   root: {
