@@ -29,20 +29,30 @@ const Profile = () => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <TopBackComp text="Profile" onPress={() => navigation.goBack()} />
       {/* profile details */}
       <View style={styles.profileContainer}>
         <Ionicons name="person-circle" size={50} />
-        <Text style={styles.name}>Akash</Text>
-        <Text style={styles.email}>Akash@gmail.com</Text>
+        <Text style={styles.name}>
+          {authUser != null ? authUser.name : "User"}
+        </Text>
+        <Text style={styles.email}>
+          {authUser != null ? authUser.email : "User@gmail.com"}
+        </Text>
         <View style={styles.rowStyle}>
           <Text>Total Donated = </Text>
           <Text>4</Text>
         </View>
         <View style={[styles.rowStyle, { marginTop: 5 }]}>
           <Text>Last Donated Date = </Text>
-          <Text>12/12/22</Text>
+          <Text>
+            {authUser != null
+              ? authUser.lastdonatedate == ""
+                ? "new Donar"
+                : authUser.lastdonatedate
+              : "No Date found"}
+          </Text>
         </View>
 
         <TouchableOpacity style={styles.editBtn}>
@@ -60,6 +70,7 @@ const Profile = () => {
       </View>
       <ScrollView>
         <View style={styles.historyContainer}>
+          <DonateHistory />
           <DonateHistory />
         </View>
       </ScrollView>
@@ -90,7 +101,7 @@ const DonateHistory = () => (
 const styles = StyleSheet.create({
   profileContainer: {
     backgroundColor: AppColors.WHITE,
-    paddingTop: 10,
+    paddingTop: 0,
     paddingBottom: 20,
     width: WIDTH,
     justifyContent: "center",
@@ -142,7 +153,8 @@ const styles = StyleSheet.create({
   },
   historyContainer: {
     paddingHorizontal: 15,
-    marginTop: 10,
+    marginTop: 5,
+    paddingBottom: 5,
   },
 
   lastDonateDateContainer: {
