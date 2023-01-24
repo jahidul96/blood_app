@@ -13,7 +13,7 @@ import { InputComp } from "../../components/InputComp";
 import ButtonComp from "../../components/ButtonComp";
 import { TextComp } from "../../components/TextComp";
 import { FC, useState } from "react";
-import { authUserFunc } from "../../api/authFunc";
+import { postData } from "../../api/post";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface mainPropstypes {
@@ -43,14 +43,14 @@ const Login: FC<mainPropstypes> = ({ navigation }) => {
 
     setTimeout(() => {
       try {
-        authUserFunc(data, routePath)
+        postData(data, routePath)
           .then(async (data) => {
             // console.log("succes");
             // console.log(data);
             Alert.alert(data.message);
             const user = JSON.stringify(data.user);
             await AsyncStorage.setItem("user", user);
-            navigation.navigate("Main");
+            navigation.navigate("Home");
           })
           .catch((err) => {
             console.log(err.message);

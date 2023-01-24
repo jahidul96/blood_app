@@ -12,7 +12,7 @@ import DropDownList, { DropDownItems } from "../components/DropDownList";
 import { TextComp } from "../components/TextComp";
 import ButtonComp from "../components/ButtonComp";
 import { AppColors } from "../utils/AppColors";
-import { authUserFunc } from "../api/authFunc";
+import { authUserFunc } from "../api/post";
 import { InputComp } from "../components/InputComp";
 import { HEIGHT } from "../utils/AppDimension";
 import TopBackComp from "../components/TopBackComp";

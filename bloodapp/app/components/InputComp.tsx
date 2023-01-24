@@ -8,6 +8,7 @@ interface Props {
   inputExtraStyle?: any;
   setValue?: any;
   secure?: boolean;
+  multiline?: boolean;
 }
 
 export const InputComp: FC<Props> = ({
@@ -15,12 +16,15 @@ export const InputComp: FC<Props> = ({
   inputExtraStyle,
   setValue,
   secure,
+  multiline,
 }) => (
   <TextInput
     style={[styles.inputStyle, inputExtraStyle]}
     placeholder={placeholder}
     onChangeText={(val) => setValue(val)}
     secureTextEntry={secure}
+    multiline={multiline}
+    textAlignVertical={multiline ? "top" : "center"}
   />
 );
 

@@ -18,7 +18,7 @@ import { HEIGHT } from "../../utils/AppDimension";
 import ButtonComp from "../../components/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { authUserFunc } from "../../api/authFunc";
+import { postData } from "../../api/post";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const img =
@@ -115,14 +115,14 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
     };
     try {
       const routePath = "/auth/register";
-      authUserFunc(data, routePath)
+      postData(data, routePath)
         .then(async (data) => {
           // console.log("succes");
           // console.log(data);
           Alert.alert(data.message);
           const user = JSON.stringify(data.user);
           await AsyncStorage.setItem("user", user);
-          navigation.navigate("Main");
+          navigation.navigate("Home");
         })
         .catch((err) => {
           console.log(err.message);
