@@ -1,24 +1,39 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { FC } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AppColors } from "../utils/AppColors";
 import { useNavigation } from "@react-navigation/native";
-import { Nav } from "../typeInterfaces/typeInterfaces";
+import { Nav, postInterface } from "../typeInterfaces/typeInterfaces";
 
-const Post = () => {
+interface PropsInterface {
+  post: postInterface;
+}
+const Post: FC<PropsInterface> = ({ post }) => {
   const navigation = useNavigation<Nav>();
+
   return (
     <View style={styles.container}>
       {/* donar profile */}
       <View style={styles.profile}>
-        <Ionicons name="person-circle" size={25} />
-        <Text style={styles.name}>Akash</Text>
+        <Ionicons name="person-circle" size={28} />
+        <Text style={styles.name}>{post?.author?.name}</Text>
       </View>
-      <View>
-        <Text>
-          we need a blood donar for a mother. it's urgent. if anyone can help
-          please do call on my number 0193949955. address is ctg, hospital
-        </Text>
+      <View style={styles.postDecContainer}>
+        <Text style={styles.captionText}>{post?.caption}</Text>
+        <View style={styles.rowStyle}>
+          <FontAwesome name="address-book" size={16} />
+          <Text style={styles.addressText}>{post?.address}</Text>
+        </View>
+
+        <View style={styles.rowStyle}>
+          <Ionicons name="call" size={16} />
+          <Text style={styles.addressText}>{post?.phone}</Text>
+        </View>
+
+        <View style={styles.dateContainer}>
+          <Text>{post?.createdAt.slice(0, 10)}</Text>
+        </View>
       </View>
     </View>
   );
@@ -42,6 +57,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   name: {
-    marginLeft: 8,
+    marginLeft: 5,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  postDecContainer: {
+    marginTop: 5,
+  },
+  rowStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  captionText: {
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  addressText: {
+    marginLeft: 6,
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  dateContainer: {
+    marginTop: 8,
+    alignItems: "flex-end",
   },
 });

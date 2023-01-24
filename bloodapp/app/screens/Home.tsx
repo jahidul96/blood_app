@@ -14,10 +14,13 @@ import { WIDTH } from "../utils/AppDimension";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Donar from "../components/Donar";
 import { useNavigation } from "@react-navigation/native";
-import { Nav } from "../typeInterfaces/typeInterfaces";
+import { Nav, postInterface } from "../typeInterfaces/typeInterfaces";
 import { getAuthUserData } from "../utils/LocalStorage";
 import { AuthUserContext } from "../context/authUserContext";
 import Post from "../components/Post";
+import UseFetch from "../api/fetchData";
+import { endpoint } from "../api/endPoint";
+import PostTab from "../components/PostTab";
 
 const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -32,6 +35,12 @@ const Home = () => {
   const [initialTab, setInitialTab] = useState("Posts");
   const [tabloading, setTabLoading] = useState(false);
   const [appLoading, setAppLoading] = useState(true);
+
+  // api endpoint
+  const allpostendpoint = endpoint + "/post/allposts";
+
+  // data fetch hook
+  const postData = UseFetch(allpostendpoint);
 
   useEffect(() => {
     setTimeout(() => {
@@ -111,9 +120,11 @@ const Home = () => {
                 <View style={styles.lodderStyle}>
                   <ActivityIndicator size={"large"} color={AppColors.RED} />
                 </View>
-              ) : initialTab == "Posts" ? (
-                donaters.map((data) => <Post key={data} />)
+              ) : // posts content
+              initialTab == "Posts" ? (
+                <PostTab postData={postData} />
               ) : (
+                // donaters content
                 donaters.map((data) => <Donar key={data} />)
               )}
             </View>

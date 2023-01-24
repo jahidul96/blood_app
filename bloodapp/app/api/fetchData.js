@@ -26,13 +26,9 @@ const UseFetch = (url) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      // do something
-      fetchData();
-    });
-
-    return unsubscribe;
-  }, [url, navigation]);
+    // do something
+    fetchData();
+  }, [url]);
 
   //   refatch func
   const reFetch = async () => {

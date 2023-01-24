@@ -6,6 +6,7 @@ require("dotenv").config();
 
 // module imports
 const authRoutes = require("./routes/authRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 // app initialize
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // endpoint for request
 app.use("/auth", authRoutes);
+app.use("/post", postRoutes);
 
 // db connection
 
