@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import TopBackComp from "../components/TopBackComp";
 import { AppColors } from "../utils/AppColors";
@@ -7,6 +14,7 @@ import ButtonComp from "../components/ButtonComp";
 import { AuthUserContext } from "../context/authUserContext";
 import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
+import { postData } from "../api/post";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -14,13 +22,47 @@ const img =
 const Post = () => {
   const [caption, setCaption] = useState("");
   const [location, setLocation] = useState("");
+  const [bloodgroup, setBloodGroup] = useState("");
   const [phone, setPhone] = useState("");
   const { authUser, setAuthUser } = useContext<any>(AuthUserContext);
   const navigation = useNavigation<Nav>();
+  const [loading, setLoading] = useState(false);
 
   // console.log(authUser);
 
-  const postData = () => {};
+  const post = () => {
+    setLoading(true);
+    if (!caption || !location || !phone || !bloodgroup) {
+      setLoading(false);
+      return Alert.alert("Fill all the field's");
+    }
+
+    const data = {
+      caption,
+      location,
+      phone,
+      author: authUser?._id,
+      bloodgroup,
+    };
+    const routePath = "/post/createpost";
+
+    setTimeout(() => {
+      postData(data, routePath)
+        .then((data) => {
+          setLoading(false);
+          setCaption("");
+          setLocation("");
+          setPhone("");
+          setBloodGroup("");
+          navigation.navigate("Home");
+          Alert.alert("Post Added");
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }, 1000);
+  };
   return (
     <View style={styles.root}>
       {authUser != null ? (
@@ -36,13 +78,29 @@ const Post = () => {
               inputExtraStyle={styles.inputExtraStyle}
               multiline={true}
               setValue={setCaption}
+              value={caption}
             />
-            <InputComp placeholder="location..." setValue={setLocation} />
-            <InputComp placeholder="phone..." setValue={setPhone} />
+            <InputComp
+              placeholder="location..."
+              setValue={setLocation}
+              value={location}
+            />
+            <InputComp
+              placeholder="phone..."
+              setValue={setPhone}
+              value={phone}
+            />
+            <InputComp
+              placeholder="bloodgroup..."
+              setValue={setBloodGroup}
+              value={bloodgroup}
+            />
             <ButtonComp
               text="Post"
-              onPress={postData}
+              onPress={post}
               extraStyle={{ marginTop: 10 }}
+              disabled={loading ? true : false}
+              loading={loading}
             />
           </View>
         </>

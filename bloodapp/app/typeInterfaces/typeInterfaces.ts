@@ -6,9 +6,10 @@ interface Nav {
 
 export interface postInterface {
   caption: string;
-  address: string;
+  location: string;
   _id: string;
   phone: string;
+  bloodgroup: string;
   createdAt: any;
   author: user;
 }

@@ -14,10 +14,10 @@ import { WIDTH } from "../utils/AppDimension";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Donar from "../components/Donar";
 import { useNavigation } from "@react-navigation/native";
-import { Nav, postInterface } from "../typeInterfaces/typeInterfaces";
+import { Nav } from "../typeInterfaces/typeInterfaces";
 import { getAuthUserData } from "../utils/LocalStorage";
 import { AuthUserContext } from "../context/authUserContext";
-import Post from "../components/Post";
+
 import UseFetch from "../api/fetchData";
 import { endpoint } from "../api/endPoint";
 import PostTab from "../components/PostTab";

@@ -6,6 +6,7 @@ import React from "react";
 interface Props {
   placeholder: string;
   inputExtraStyle?: any;
+  value?: any;
   setValue?: any;
   secure?: boolean;
   multiline?: boolean;
@@ -17,6 +18,7 @@ export const InputComp: FC<Props> = ({
   setValue,
   secure,
   multiline,
+  value,
 }) => (
   <TextInput
     style={[styles.inputStyle, inputExtraStyle]}
@@ -24,6 +26,7 @@ export const InputComp: FC<Props> = ({
     onChangeText={(val) => setValue(val)}
     secureTextEntry={secure}
     multiline={multiline}
+    value={value}
     textAlignVertical={multiline ? "top" : "center"}
   />
 );

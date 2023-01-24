@@ -28,7 +28,11 @@ const ButtonComp: FC<PropsTypes> = ({
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.btnStyle, extraStyle]}
+      style={[
+        styles.btnStyle,
+        extraStyle,
+        { backgroundColor: disabled ? AppColors.LIGHTSKYBLUE : AppColors.RED },
+      ]}
     >
       {loading ? (
         <ActivityIndicator size={"small"} color={AppColors.RED} />

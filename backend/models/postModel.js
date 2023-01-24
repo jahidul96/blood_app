@@ -6,11 +6,15 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    address: {
+    location: {
       type: String,
       required: true,
     },
     phone: {
+      type: String,
+      required: true,
+    },
+    bloodgroup: {
       type: String,
       required: true,
     },
