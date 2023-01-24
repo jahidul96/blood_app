@@ -15,6 +15,11 @@ import { AuthUserContext } from "../context/authUserContext";
 import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
 import { postData } from "../api/post";
+import { TextComp } from "../components/TextComp";
+import DropDownList, { DropDownItems } from "../components/DropDownList";
+import { HEIGHT } from "../utils/AppDimension";
+
+const bloodgroups = ["A+", "B+", "AB+", "O+", "A-", "B-", "O-"];
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -22,17 +27,21 @@ const img =
 const Post = () => {
   const [caption, setCaption] = useState("");
   const [location, setLocation] = useState("");
-  const [bloodgroup, setBloodGroup] = useState("");
+
   const [phone, setPhone] = useState("");
-  const { authUser, setAuthUser } = useContext<any>(AuthUserContext);
+  const { authUser } = useContext<any>(AuthUserContext);
   const navigation = useNavigation<Nav>();
   const [loading, setLoading] = useState(false);
+  const [emergency, setEmergency] = useState(false);
+  const [showBloodList, setShowBloodList] = useState(false);
+
+  const [bloodGroup, setbloodGroup] = useState("");
 
   // console.log(authUser);
 
   const post = () => {
     setLoading(true);
-    if (!caption || !location || !phone || !bloodgroup) {
+    if (!caption || !location || !phone || !bloodGroup) {
       setLoading(false);
       return Alert.alert("Fill all the field's");
     }
@@ -42,7 +51,8 @@ const Post = () => {
       location,
       phone,
       author: authUser?._id,
-      bloodgroup,
+      bloodgroup: bloodGroup,
+      emergency,
     };
     const routePath = "/post/createpost";
 
@@ -53,7 +63,8 @@ const Post = () => {
           setCaption("");
           setLocation("");
           setPhone("");
-          setBloodGroup("");
+          setbloodGroup("");
+          setEmergency(false);
           navigation.navigate("Home");
           Alert.alert("Post Added");
         })
@@ -90,11 +101,33 @@ const Post = () => {
               setValue={setPhone}
               value={phone}
             />
-            <InputComp
-              placeholder="bloodgroup..."
-              setValue={setBloodGroup}
-              value={bloodgroup}
-            />
+
+            <View style={styles.rowStyle}>
+              <TextComp
+                text="Blood-Group"
+                textExtraStyle={styles.textExtraStyle}
+              />
+              <View style={{ width: "70%" }}>
+                <DropDownList
+                  placeholder="Group"
+                  show={showBloodList}
+                  setShow={setShowBloodList}
+                  value={bloodGroup}
+                />
+              </View>
+            </View>
+            <View style={styles.emergencyContainer}>
+              <TextComp
+                text="Emergency : "
+                textExtraStyle={styles.emergencyText}
+              />
+              <TouchableOpacity
+                style={styles.eWrapper}
+                onPress={() => setEmergency(!emergency)}
+              >
+                {emergency && <View style={styles.activeContainer} />}
+              </TouchableOpacity>
+            </View>
             <ButtonComp
               text="Post"
               onPress={post}
@@ -102,6 +135,16 @@ const Post = () => {
               disabled={loading ? true : false}
               loading={loading}
             />
+
+            {/* blood group droupdown */}
+            {showBloodList && (
+              <DropDownItems
+                data={bloodgroups}
+                setValue={setbloodGroup}
+                setShow={setShowBloodList}
+                viewStyle={[styles.dropdownItemStyle, { height: HEIGHT / 2.4 }]}
+              />
+            )}
           </View>
         </>
       ) : (
@@ -150,5 +193,55 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     marginBottom: 20,
+  },
+  emergencyContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  eWrapper: {
+    width: 16,
+    height: 16,
+    backgroundColor: AppColors.WHITE,
+    borderColor: AppColors.RED,
+    borderWidth: 1,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 6,
+    marginTop: 2,
+  },
+  activeContainer: {
+    width: 10,
+    height: 10,
+    backgroundColor: AppColors.RED,
+    borderRadius: 100,
+  },
+  emergencyText: {
+    fontWeight: "600",
+    fontSize: 16,
+  },
+  rowStyle: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  textExtraStyle: {
+    marginBottom: 5,
+    textDecorationLine: "underline",
+    fontSize: 15,
+  },
+  dropdownItemStyle: {
+    width: "100%",
+    height: 200,
+    borderRadius: 20,
+    position: "absolute",
+    top: HEIGHT / 3,
+    left: 0,
+    backgroundColor: AppColors.LIGHTSKYBLUE,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

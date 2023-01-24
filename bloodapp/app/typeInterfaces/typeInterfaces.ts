@@ -12,6 +12,7 @@ export interface postInterface {
   bloodgroup: string;
   createdAt: any;
   author: user;
+  emergency: boolean;
 }
 
 export interface user {

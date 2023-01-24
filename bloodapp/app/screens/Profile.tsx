@@ -71,7 +71,7 @@ const Profile = () => {
 
       {/* profile details */}
       <View style={styles.profileContainer}>
-        <Ionicons name="person-circle" size={50} />
+        <Ionicons name="person-circle" size={50} color={AppColors.BLUE} />
         <Text style={styles.name}>
           {authUser != null ? authUser.name : "User"}
         </Text>

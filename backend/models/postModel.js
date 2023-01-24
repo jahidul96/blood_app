@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    emergency: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

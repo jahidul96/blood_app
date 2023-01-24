@@ -85,7 +85,7 @@ const Home = () => {
           {/* topbar content/profileicon content */}
           <View style={styles.profileTopContainer}>
             <TouchableOpacity style={styles.iconWrapper} onPress={gotoProfile}>
-              <Ionicons name="person-circle" size={30} />
+              <Ionicons name="person-circle" size={30} color={AppColors.BLUE} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.inputSample}

@@ -25,7 +25,7 @@ const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
 
 const sex = ["Male", "Female", "Others"];
-const bloodgroups = ["A+", "B+", "O+", "A-", "B-", "O-"];
+const bloodgroups = ["A+", "B+", "AB+", "O+", "A-", "B-", "O-"];
 
 interface mainPropstypes {
   navigation?: any;

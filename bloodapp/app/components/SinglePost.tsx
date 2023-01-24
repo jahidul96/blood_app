@@ -16,28 +16,38 @@ const SinglePost: FC<PropsInterface> = ({ post }) => {
 
   return (
     <View style={styles.container}>
-      {/* donar profile */}
+      {/* emergency or not tag */}
+      {post.emergency && (
+        <View style={styles.urgentContainer}>
+          <Text style={styles.emText}>Urgent</Text>
+        </View>
+      )}
 
+      {/* donar profile */}
       <View style={styles.profile}>
-        <Ionicons name="person-circle" size={28} />
+        <Ionicons name="person-circle" size={28} color={AppColors.BLUE} />
         <Text style={styles.name}>{post?.author?.name}</Text>
       </View>
       <View style={styles.postDecContainer}>
         <View style={styles.captionContainer}>
-          <MaterialCommunityIcons name="chevron-triple-right" size={16} />
+          <MaterialCommunityIcons
+            name="chevron-triple-right"
+            size={16}
+            color={AppColors.RED}
+          />
           <Text style={styles.captionText}>{post?.caption}</Text>
         </View>
         <View style={styles.rowStyle}>
-          <Fontisto name="blood-drop" size={16} />
+          <Fontisto name="blood-drop" size={16} color={AppColors.RED} />
           <Text style={styles.addressText}>{post?.bloodgroup}</Text>
         </View>
         <View style={[styles.rowStyle, { marginTop: 10, marginBottom: 3 }]}>
-          <FontAwesome name="address-book" size={16} />
+          <FontAwesome name="address-book" size={16} color={AppColors.BLUE} />
           <Text style={styles.addressText}>{post?.location}</Text>
         </View>
 
         <View style={styles.rowStyle}>
-          <Ionicons name="call" size={16} />
+          <Ionicons name="call" size={16} color={AppColors.RED} />
           <Text style={styles.addressText}>{post?.phone}</Text>
         </View>
 
@@ -63,6 +73,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  urgentContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 80,
+    height: 35,
+    backgroundColor: AppColors.RED,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopRightRadius: 10,
+  },
+  emText: {
+    color: AppColors.WHITE,
+    fontWeight: "700",
+    fontSize: 13,
+  },
   profile: {
     flexDirection: "row",
     alignItems: "center",
