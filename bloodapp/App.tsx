@@ -8,6 +8,7 @@ import Profile from "./app/screens/Profile";
 import Search from "./app/screens/Search";
 import DonarDetails from "./app/screens/DonarDetails";
 import { AuthProvider } from "./app/context/authUserContext";
+import EditProfile from "./app/screens/EditProfile";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="DonarDetails" component={DonarDetails} />
         </Stack.Navigator>

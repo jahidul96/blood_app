@@ -1,25 +1,21 @@
 import {
   Image,
   StyleSheet,
-  Text,
   View,
   ScrollView,
   StatusBar,
-  Platform,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import React, { FC, useState } from "react";
-import { AppColors } from "../../utils/AppColors";
-import { InputComp } from "../../components/InputComp";
-import { TextComp } from "../../components/TextComp";
-import DropDownList, { DropDownItems } from "../../components/DropDownList";
-import { HEIGHT } from "../../utils/AppDimension";
-import ButtonComp from "../../components/ButtonComp";
-import { TouchableOpacity } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { authUserFunc } from "../../api/authFunc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DropDownList, { DropDownItems } from "../components/DropDownList";
+import { TextComp } from "../components/TextComp";
+import ButtonComp from "../components/ButtonComp";
+import { AppColors } from "../utils/AppColors";
+import { authUserFunc } from "../api/authFunc";
+import { InputComp } from "../components/InputComp";
+import { HEIGHT } from "../utils/AppDimension";
+import TopBackComp from "../components/TopBackComp";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -31,16 +27,11 @@ interface mainPropstypes {
   navigation?: any;
 }
 
-const Register: FC<mainPropstypes> = ({ navigation }) => {
+const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
   const [showgender, setShowgender] = useState(false);
   const [gender, setGender] = useState("");
   const [showBloodList, setShowBloodList] = useState(false);
   const [bloodGroup, setbloodGroup] = useState("");
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [userdate, setUserDate] = useState<null | any>(null);
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [newDonar, setNewDonar] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,58 +40,10 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   const [division, setDivision] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
-    setUserDate(currentDate);
-  };
-
-  const showMode = (currentMode: any) => {
-    if (Platform.OS === "android") {
-      //   setShow(false);
-      // for iOS, add a button that closes the picker
-    }
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-    if (newDonar == true) {
-      return Alert.alert("You have selected as a new donar!!");
-    }
-    setShow(true);
-  };
-
-  const checkDonar = () => {
-    if (newDonar == false) {
-      setNewDonar(true);
-      setUserDate("");
-    } else {
-      setNewDonar(false);
-    }
-  };
-
   // register a user!!
-  const register = async () => {
+  const updateUser = async () => {
     setLoading(true);
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !phone ||
-      !gender ||
-      !address ||
-      !division ||
-      !bloodGroup
-    ) {
-      setLoading(false);
-      return Alert.alert("Fill all the field's!");
-    }
-    if (newDonar && userdate) {
-      setLoading(false);
-      setUserDate("");
-    }
+
     const data = {
       name,
       email,
@@ -110,11 +53,11 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
       address,
       division,
       bloodGroup,
-      lastdonatedate: userdate,
-      newDonar,
+      lastdonatedate: Date.now(),
+      newDonar: false,
     };
     try {
-      const routePath = "/auth/register";
+      const routePath = "/auth/user/update";
       authUserFunc(data, routePath)
         .then(async (data) => {
           // console.log("succes");
@@ -126,20 +69,11 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
         })
         .catch((err) => {
           console.log(err.message);
-          setLoading(false);
         });
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
-  };
-
-  const gotoLogin = () => {
-    if (loading) {
-      return;
-    }
-    navigation.navigate("Login");
-    setLoading(false);
   };
 
   // styles
@@ -150,6 +84,11 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <StatusBar backgroundColor={AppColors.RED} />
+      <TopBackComp
+        text="EditProfile"
+        onPress={() => navigation.goBack()}
+        extraStyle={{ paddingHorizontal: 0 }}
+      />
 
       {/* all content */}
 
@@ -227,45 +166,6 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
             />
           </View>
         </View>
-
-        {/* last donate date */}
-        <View style={styles.rowStyle}>
-          <TextComp
-            text="Last Donate!"
-            textExtraStyle={styles.textExtraStyle}
-          />
-          <View style={{ width: "60%" }}>
-            <TouchableOpacity onPress={showDatepicker}>
-              <Text>
-                {userdate == null
-                  ? "Select A Date"
-                  : userdate?.toLocaleString()}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* new donar */}
-        <View style={styles.rowStyle}>
-          <TextComp text="New donar!" textExtraStyle={styles.textExtraStyle} />
-          <View style={{ width: "60%" }}>
-            <TouchableOpacity
-              style={styles.newDonarCheckContainer}
-              onPress={checkDonar}
-            >
-              {newDonar && (
-                <View
-                  style={{
-                    width: 10,
-                    height: 10,
-                    backgroundColor: AppColors.RED,
-                    borderRadius: 100,
-                  }}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
 
       {/* login page text */}
@@ -276,21 +176,12 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
         }}
       >
         <ButtonComp
-          text="Sign In"
-          onPress={register}
+          text="Update"
+          onPress={updateUser}
           disabled={loading ? true : false}
           extraStyle={extraBtnStyle}
           loading={loading}
         />
-        <View style={styles.signupTextContainer}>
-          <TextComp
-            text="Already Have Account ?"
-            textExtraStyle={{ fontSize: 16 }}
-          />
-          <TouchableOpacity onPress={gotoLogin}>
-            <TextComp text="Sign In!" textExtraStyle={styles.linkText} />
-          </TouchableOpacity>
-        </View>
       </View>
 
       {/* gender select dropdown */}
@@ -312,22 +203,11 @@ const Register: FC<mainPropstypes> = ({ navigation }) => {
           viewStyle={[styles.dropdownItemStyle, { height: HEIGHT / 2.4 }]}
         />
       )}
-
-      {/* datepicker model */}
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          is24Hour={true}
-          onChange={onChange}
-          minimumDate={new Date(2022, 0, 1)}
-        />
-      )}
     </ScrollView>
   );
 };
 
-export default Register;
+export default EditProfile;
 
 // SingleInputTextComp sub reuseable component
 interface CompProps {
@@ -360,7 +240,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
   },
 
   imgStyle: {

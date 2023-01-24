@@ -7,11 +7,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 interface PropsTypes {
   text: string;
   onPress?: () => void;
+  extraStyle?: any;
 }
 
-const TopBackComp: FC<PropsTypes> = ({ text, onPress }) => {
+const TopBackComp: FC<PropsTypes> = ({ text, onPress, extraStyle }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, extraStyle]}>
       <TouchableOpacity onPress={onPress}>
         <Ionicons name="chevron-back" size={25} />
       </TouchableOpacity>
