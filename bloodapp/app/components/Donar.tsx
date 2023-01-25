@@ -11,7 +11,8 @@ interface PropsTypes {
   user: user;
 }
 const Donar: FC<PropsTypes> = ({ user }) => {
-  const navigation = useNavigation<Nav>();
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {/* donar profile */}
@@ -39,7 +40,9 @@ const Donar: FC<PropsTypes> = ({ user }) => {
         </Text>
       </View>
       <View style={styles.detailsWrapper}>
-        <TouchableOpacity onPress={() => navigation.navigate("DonarDetails")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DonarDetails", { user: user })}
+        >
           <Text style={styles.btnText}>Details</Text>
         </TouchableOpacity>
       </View>

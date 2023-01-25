@@ -1,14 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { FC } from "react";
 import { AppColors } from "../utils/AppColors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import TopBackComp from "../components/TopBackComp";
 import { useNavigation } from "@react-navigation/native";
-import { Nav } from "../typeInterfaces/typeInterfaces";
+import { Nav, user } from "../typeInterfaces/typeInterfaces";
 import ButtonComp from "../components/ButtonComp";
 
-const DonarDetails = () => {
+interface PropsTypes {
+  user: any;
+}
+
+const DonarDetails: FC<PropsTypes> = ({ route }) => {
   const navigation = useNavigation<Nav>();
+
+  const { user } = route.params;
+
   return (
     <View>
       <TopBackComp text="Details" onPress={() => navigation.goBack()} />
@@ -16,26 +23,30 @@ const DonarDetails = () => {
         {/* donar profile */}
         <View style={styles.profileContainer}>
           <View style={styles.profile}>
-            <Ionicons name="person-circle" size={24} />
-            <Text style={styles.name}>Akash</Text>
+            <Ionicons name="person-circle" size={24} color={AppColors.BLUE} />
+            <Text style={styles.name}>{user?.name}</Text>
           </View>
           <Text>Available</Text>
         </View>
         <View style={[styles.rowStyle, { marginTop: 5 }]}>
           <Text>Blood-Group : </Text>
-          <Text style={styles.phone}>A+</Text>
+          <Text style={styles.phone}>{user?.bloodGroup}</Text>
         </View>
         <View style={[styles.rowStyle, styles.mt]}>
           <Text>Address : </Text>
-          <Text style={styles.phone}>potiya, chittagong</Text>
+          <Text style={styles.phone}>{user?.address}</Text>
         </View>
         <View style={[styles.rowStyle, styles.mt]}>
           <Text>Last Donate : </Text>
-          <Text style={styles.phone}>11/12/22</Text>
+          <Text style={styles.phone}>
+            {user?.lastdonatedate
+              ? user?.lastdonatedate.slice(0, 10)
+              : "New Donar"}
+          </Text>
         </View>
         <View style={[styles.rowStyle, styles.mt]}>
           <Text>Phone : </Text>
-          <Text style={styles.phone}>01859892596</Text>
+          <Text style={styles.phone}>{user?.phone}</Text>
         </View>
         <View style={styles.detailsWrapper}>
           <ButtonComp

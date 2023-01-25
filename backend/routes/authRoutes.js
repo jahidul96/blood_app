@@ -103,7 +103,6 @@ router.get("/allusers", async (req, res) => {
 
 router.get("/search", async (req, res) => {
   const { bloodgroup } = req.query;
-  console.log(req.query);
 
   try {
     const alluser = await User.find(
