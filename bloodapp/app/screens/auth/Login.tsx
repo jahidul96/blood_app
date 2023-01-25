@@ -13,7 +13,7 @@ import { InputComp } from "../../components/InputComp";
 import ButtonComp from "../../components/ButtonComp";
 import { TextComp } from "../../components/TextComp";
 import { FC, useState } from "react";
-import { postData } from "../../api/post";
+import { postData } from "../../api/apiCall";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface mainPropstypes {

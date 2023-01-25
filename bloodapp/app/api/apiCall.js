@@ -10,3 +10,13 @@ export const postData = async (userdata, routePath) => {
     return error;
   }
 };
+
+export const deleteData = async (routePath) => {
+  const reqpoint = `${endpoint + routePath}`;
+  try {
+    const data = await axios.delete(reqpoint);
+    return data.data;
+  } catch (error) {
+    return error;
+  }
+};

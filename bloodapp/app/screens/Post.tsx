@@ -14,7 +14,7 @@ import ButtonComp from "../components/ButtonComp";
 import { AuthUserContext } from "../context/authUserContext";
 import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
-import { postData } from "../api/post";
+import { postData } from "../api/apiCall";
 import { TextComp } from "../components/TextComp";
 import DropDownList, { DropDownItems } from "../components/DropDownList";
 import { HEIGHT } from "../utils/AppDimension";

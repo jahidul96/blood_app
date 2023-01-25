@@ -46,6 +46,7 @@ const Home = () => {
 
   // allpost call
   const postData = UseFetch(allpostendpoint);
+
   // all users call
   const userData = UseFetch(alluserendpoint);
 

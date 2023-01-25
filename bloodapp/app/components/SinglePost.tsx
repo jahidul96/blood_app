@@ -1,18 +1,35 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AppColors } from "../utils/AppColors";
 import { useNavigation } from "@react-navigation/native";
-import { Nav, postInterface } from "../typeInterfaces/typeInterfaces";
+import { Nav, postInterface, user } from "../typeInterfaces/typeInterfaces";
+import { AuthUserContext } from "../context/authUserContext";
+import { deleteData, postData } from "../api/apiCall";
 
 interface PropsInterface {
   post: postInterface;
+  reFetch?: any;
 }
-const SinglePost: FC<PropsInterface> = ({ post }) => {
+const SinglePost: FC<PropsInterface> = ({ post, reFetch }) => {
   const navigation = useNavigation<Nav>();
+  const { authUser } = useContext<any>(AuthUserContext);
+
+  const deleteMyPost = (postId: any) => {
+    const path = `/post/delete/${postId}`;
+    deleteData(path)
+      .then((data) => {
+        alert(data.message);
+        reFetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -52,6 +69,17 @@ const SinglePost: FC<PropsInterface> = ({ post }) => {
         </View>
 
         <View style={styles.dateContainer}>
+          {authUser?._id == post?.author?._id ? (
+            <TouchableOpacity
+              style={styles.deleteIconContainer}
+              onPress={() => deleteMyPost(post?._id)}
+            >
+              <AntDesign name="delete" size={20} />
+            </TouchableOpacity>
+          ) : (
+            <Text></Text>
+          )}
+
           <Text>{post?.createdAt.slice(0, 10)}</Text>
         </View>
       </View>
@@ -123,11 +151,10 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   dateContainer: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "flex-end",
   },
-  commentandshareContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    marginTop: 8,
-  },
+  deleteIconContainer: {},
 });

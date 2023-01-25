@@ -11,21 +11,21 @@ interface PropsInterface {
 const PostTab: FC<PropsInterface> = ({ postData }) => {
   return (
     <View style={{ flex: 1 }}>
-      {postData.data.totalPost == 0 ? (
+      {postData?.data?.totalPost == 0 ? (
         <View style={styles.nopostContainer}>
           <Text>No Post Till Now</Text>
         </View>
-      ) : postData.loading ? (
+      ) : postData?.loading ? (
         <View style={styles.lodderStyle}>
           <ActivityIndicator size={"large"} color={AppColors.RED} />
         </View>
-      ) : postData.err ? (
+      ) : postData?.err ? (
         <View style={styles.lodderStyle}>
           <Text>Something went wrong</Text>
         </View>
       ) : (
         postData?.data?.allposts.map((data: postInterface) => (
-          <SinglePost key={data._id} post={data} />
+          <SinglePost key={data._id} post={data} reFetch={postData?.reFetch} />
         ))
       )}
     </View>

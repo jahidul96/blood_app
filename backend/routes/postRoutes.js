@@ -40,4 +40,24 @@ router.post("/createpost", async (req, res) => {
   }
 });
 
+// delete a post
+
+router.delete("/delete/:id", async (req, res) => {
+  const postid = req.params.id;
+  try {
+    const deletedPost = await Post.findByIdAndDelete(postid);
+    res.status(200).json({
+      succes: true,
+      message: "post deleted Succesfully!!",
+      deletedPost,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "something went wrong",
+      errorMsg: error.message,
+      succes: false,
+    });
+  }
+});
+
 module.exports = router;

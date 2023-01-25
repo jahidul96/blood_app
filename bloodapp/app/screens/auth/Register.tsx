@@ -18,7 +18,7 @@ import { HEIGHT } from "../../utils/AppDimension";
 import ButtonComp from "../../components/ButtonComp";
 import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { postData } from "../../api/post";
+import { postData } from "../../api/apiCall";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const img =
