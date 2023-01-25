@@ -6,16 +6,17 @@ import {
   StatusBar,
   Alert,
 } from "react-native";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownList, { DropDownItems } from "../components/DropDownList";
 import { TextComp } from "../components/TextComp";
 import ButtonComp from "../components/ButtonComp";
 import { AppColors } from "../utils/AppColors";
-import { authUserFunc } from "../api/apiCall";
 import { InputComp } from "../components/InputComp";
 import { HEIGHT } from "../utils/AppDimension";
 import TopBackComp from "../components/TopBackComp";
+import { deleteData, updateData } from "../api/apiCall";
+import { AuthUserContext } from "../context/authUserContext";
 
 const img =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdDPqIhJtO-FGbVxALsb5kdaZFreczNhcxoEmkhv-ubCuDAc9Pz8Xj-nJktjMo12qvpI&usqp=CAU";
@@ -28,16 +29,15 @@ interface mainPropstypes {
 }
 
 const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
+  const { authUser } = useContext<any>(AuthUserContext);
   const [showgender, setShowgender] = useState(false);
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(authUser?.gender);
   const [showBloodList, setShowBloodList] = useState(false);
-  const [bloodGroup, setbloodGroup] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [division, setDivision] = useState("");
+  const [bloodGroup, setbloodGroup] = useState(authUser?.bloodGroup);
+  const [name, setName] = useState(authUser?.name);
+  const [phone, setPhone] = useState(authUser?.phone);
+  const [address, setAddress] = useState(authUser?.address);
+  const [division, setDivision] = useState(authUser?.division);
   const [loading, setLoading] = useState(false);
 
   // register a user!!
@@ -46,30 +46,30 @@ const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
 
     const data = {
       name,
-      email,
-      password,
       phone,
       gender,
       address,
       division,
       bloodGroup,
-      lastdonatedate: Date.now(),
-      newDonar: false,
     };
+
     try {
-      const routePath = "/auth/user/update";
-      authUserFunc(data, routePath)
-        .then(async (data) => {
-          // console.log("succes");
-          // console.log(data);
-          Alert.alert(data.message);
-          const user = JSON.stringify(data.user);
-          await AsyncStorage.setItem("user", user);
-          navigation.navigate("Main");
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      const routePath = `/auth/update/${authUser?._id}`;
+      setTimeout(() => {
+        updateData(data, routePath)
+          .then(async (data) => {
+            // console.log("succes");
+            // console.log(data);
+            Alert.alert(data.message);
+            const user = JSON.stringify(data.user);
+            await AsyncStorage.setItem("user", user);
+            navigation.navigate("Home");
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }, 2000);
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -104,20 +104,7 @@ const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
           placeholder={"Name"}
           text="Name"
           setValue={setName}
-        />
-
-        {/* email  */}
-        <SingleInputTextComp
-          placeholder={"Email"}
-          text="Email"
-          setValue={setEmail}
-        />
-
-        {/* password */}
-        <SingleInputTextComp
-          placeholder={"Password"}
-          text="Password"
-          setValue={setPassword}
+          value={name}
         />
 
         {/* phone */}
@@ -125,6 +112,7 @@ const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
           placeholder={"Phone"}
           text="Phone"
           setValue={setPhone}
+          value={phone}
         />
 
         {/* address */}
@@ -132,6 +120,7 @@ const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
           placeholder={"Addres"}
           text="Addres"
           setValue={setAddress}
+          value={address}
         />
 
         {/* division */}
@@ -139,6 +128,7 @@ const EditProfile: FC<mainPropstypes> = ({ navigation }) => {
           placeholder={"Division"}
           text="Division"
           setValue={setDivision}
+          value={division}
         />
 
         {/* blood group */}
@@ -214,11 +204,13 @@ interface CompProps {
   text: string;
   placeholder: string;
   setValue: any;
+  value: any;
 }
 const SingleInputTextComp: FC<CompProps> = ({
   text,
   setValue,
   placeholder,
+  value,
 }) => (
   <View style={styles.rowStyle}>
     <TextComp text={text} textExtraStyle={styles.textExtraStyle} />
@@ -226,6 +218,7 @@ const SingleInputTextComp: FC<CompProps> = ({
       placeholder={placeholder}
       inputExtraStyle={styles.inputExtraStyle}
       setValue={setValue}
+      value={value}
     />
   </View>
 );

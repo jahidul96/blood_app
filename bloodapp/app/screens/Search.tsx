@@ -46,7 +46,7 @@ const Search = () => {
 
       <View style={styles.noteContainer}>
         <Text style={styles.dontText}>
-          Don't need to add + or - operator for search!!
+          No need to add + or - operator for search!!
         </Text>
       </View>
       <ScrollView>

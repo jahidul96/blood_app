@@ -123,4 +123,25 @@ router.get("/search", async (req, res) => {
   }
 });
 
+// update user
+
+router.put("/update/:id", async (req, res) => {
+  const userid = req.params.id;
+
+  try {
+    const user = await User.findByIdAndUpdate(userid, req.body, {
+      new: true,
+    });
+    res.status(200).json({
+      message: "updated succesfully",
+      user,
+    });
+  } catch (error) {
+    res.json({
+      succes: false,
+      message: "something went wrong!!" + error.message,
+    });
+  }
+});
+
 module.exports = router;
