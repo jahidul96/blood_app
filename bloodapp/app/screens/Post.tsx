@@ -6,7 +6,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import TopBackComp from "../components/TopBackComp";
 import { AppColors } from "../utils/AppColors";
 import { InputComp } from "../components/InputComp";
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     position: "absolute",
-    top: HEIGHT / 3,
+    top: HEIGHT / 7,
     left: 0,
     backgroundColor: AppColors.LIGHTSKYBLUE,
     justifyContent: "center",

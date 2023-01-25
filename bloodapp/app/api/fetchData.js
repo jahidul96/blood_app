@@ -33,6 +33,9 @@ const UseFetch = (url) => {
 
     return unsubscribe;
   }, [url, navigation]);
+  useEffect(() => {
+    fetchData();
+  }, [url]);
 
   //   refatch func
   const reFetch = async () => {

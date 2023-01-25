@@ -12,7 +12,6 @@ import React, { useEffect, useContext, useState } from "react";
 import { AppColors } from "../utils/AppColors";
 import { WIDTH } from "../utils/AppDimension";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Donar from "../components/Donar";
 import { useNavigation } from "@react-navigation/native";
 import { Nav } from "../typeInterfaces/typeInterfaces";
 import { getAuthUserData } from "../utils/LocalStorage";
@@ -100,7 +99,7 @@ const Home = () => {
               style={styles.inputSample}
               onPress={() => navigation.navigate("Search")}
             >
-              <Text style={styles.searchText}>Search</Text>
+              <Text style={styles.searchText}>Search Users...</Text>
             </TouchableOpacity>
           </View>
 
@@ -134,7 +133,7 @@ const Home = () => {
                 <PostTab postData={postData} />
               ) : (
                 // donaters content
-                <DonatorTab userData={userData} />
+                <DonatorTab userData={userData} tab={true} />
                 // donaters.map((data) => <Donar key={data} />)
               )}
             </View>

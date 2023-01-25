@@ -99,4 +99,29 @@ router.get("/allusers", async (req, res) => {
   }
 });
 
+// get specific user on bloodgroup
+
+router.get("/search", async (req, res) => {
+  const { bloodgroup } = req.query;
+  console.log(req.query);
+
+  try {
+    const alluser = await User.find(
+      {
+        bloodGroup: { $regex: bloodgroup, $options: "i" },
+      },
+      { password: 0 }
+    );
+    res.status(200).json({
+      succes: true,
+      alluser,
+    });
+  } catch (error) {
+    res.json({
+      succes: false,
+      message: "something went wrong!!" + error.message,
+    });
+  }
+});
+
 module.exports = router;

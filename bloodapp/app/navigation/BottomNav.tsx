@@ -5,6 +5,7 @@ import { AppColors } from "../utils/AppColors";
 import Home from "../screens/Home";
 import Chat from "../screens/Chat";
 import Post from "../screens/Post";
+import Search from "../screens/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,16 @@ const BottomNav = () => {
           tabBarLabel: "Post",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarLabel: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search" color={color} size={26} />
           ),
         }}
       />
