@@ -30,8 +30,8 @@ const ButtonComp: FC<PropsTypes> = ({
       disabled={disabled}
       style={[
         styles.btnStyle,
-        extraStyle,
         { backgroundColor: disabled ? AppColors.LIGHTSKYBLUE : AppColors.RED },
+        extraStyle,
       ]}
     >
       {loading ? (

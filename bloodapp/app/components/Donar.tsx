@@ -1,33 +1,42 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { FC } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AppColors } from "../utils/AppColors";
 import { useNavigation } from "@react-navigation/native";
-import { Nav } from "../typeInterfaces/typeInterfaces";
+import { Nav, user } from "../typeInterfaces/typeInterfaces";
 
-const Donar = () => {
+interface PropsTypes {
+  user: user;
+}
+const Donar: FC<PropsTypes> = ({ user }) => {
   const navigation = useNavigation<Nav>();
   return (
     <View style={styles.container}>
       {/* donar profile */}
       <View style={styles.profileContainer}>
         <View style={styles.profile}>
-          <Ionicons name="person-circle" size={20} />
-          <Text style={styles.name}>Akash</Text>
+          <Ionicons name="person-circle" size={20} color={AppColors.BLUE} />
+          <Text style={styles.name}>{user?.name}</Text>
         </View>
         <Text>Available</Text>
       </View>
       <View style={styles.rowStyle}>
-        <Text>Blood-Group : </Text>
-        <Text>A+</Text>
+        <Fontisto name="blood-drop" size={16} color={AppColors.RED} />
+        <Text style={styles.bloodgroup}>{user?.bloodGroup}</Text>
       </View>
       <View style={[styles.rowStyle, { marginTop: 6 }]}>
-        <Text>Address : </Text>
-        <Text>potiya, chittagong</Text>
+        <FontAwesome name="address-book" size={16} color={AppColors.BLUE} />
+        <Text style={styles.bloodgroup}>{user?.address}</Text>
       </View>
       <View style={[styles.rowStyle, { marginTop: 6 }]}>
         <Text>Last Donate : </Text>
-        <Text>11/12/22</Text>
+        <Text>
+          {user?.lastdonatedate
+            ? user?.lastdonatedate.slice(0, 10)
+            : "New Donar"}
+        </Text>
       </View>
       <View style={styles.detailsWrapper}>
         <TouchableOpacity onPress={() => navigation.navigate("DonarDetails")}>
@@ -62,6 +71,9 @@ const styles = StyleSheet.create({
   },
   name: {
     marginLeft: 8,
+  },
+  bloodgroup: {
+    marginLeft: 5,
   },
   rowStyle: {
     flexDirection: "row",

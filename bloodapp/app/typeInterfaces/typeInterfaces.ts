@@ -16,6 +16,7 @@ export interface postInterface {
 }
 
 export interface user {
+  _id: string;
   name: string;
   email: string;
   phone: string;

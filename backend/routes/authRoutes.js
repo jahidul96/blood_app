@@ -40,7 +40,6 @@ router.post("/register", async (req, res) => {
 });
 
 // login route
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -76,6 +75,23 @@ router.post("/login", async (req, res) => {
     }
   } catch (error) {
     // server error response for now!!
+    res.json({
+      succes: false,
+      message: "something went wrong!!",
+    });
+  }
+});
+
+// get all user
+
+router.get("/allusers", async (req, res) => {
+  try {
+    const alluser = await User.find({}, { password: 0 });
+    res.status(200).json({
+      succes: true,
+      alluser,
+    });
+  } catch (error) {
     res.json({
       succes: false,
       message: "something went wrong!!",

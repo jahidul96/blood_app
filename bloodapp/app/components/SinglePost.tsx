@@ -51,8 +51,7 @@ const SinglePost: FC<PropsInterface> = ({ post }) => {
           <Text style={styles.addressText}>{post?.phone}</Text>
         </View>
 
-        <View style={styles.commentandshareContainer}>
-          <Text>total comments</Text>
+        <View style={styles.dateContainer}>
           <Text>{post?.createdAt.slice(0, 10)}</Text>
         </View>
       </View>

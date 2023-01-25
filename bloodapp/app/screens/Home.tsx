@@ -21,6 +21,7 @@ import { AuthUserContext } from "../context/authUserContext";
 import UseFetch from "../api/fetchData";
 import { endpoint } from "../api/endPoint";
 import PostTab from "../components/PostTab";
+import DonatorTab from "../components/DonatorTab";
 
 const donaters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -37,16 +38,24 @@ const Home = () => {
   const [appLoading, setAppLoading] = useState(true);
 
   // api endpoint
+  // all post endpoint
   const allpostendpoint = endpoint + "/post/allposts";
+  // all users endpoint
+  const alluserendpoint = endpoint + "/auth/allusers";
 
   // data fetch hook
+
+  // allpost call
   const postData = UseFetch(allpostendpoint);
+  // all users call
+  const userData = UseFetch(alluserendpoint);
 
   useEffect(() => {
     setTimeout(() => {
       setAppLoading(false);
     }, 2000);
     navigation.addListener("focus", () => {
+      setInitialTab("Posts");
       getAuthUserData()
         .then((val) => {
           setAuthUser(val);
@@ -125,7 +134,8 @@ const Home = () => {
                 <PostTab postData={postData} />
               ) : (
                 // donaters content
-                donaters.map((data) => <Donar key={data} />)
+                <DonatorTab userData={userData} />
+                // donaters.map((data) => <Donar key={data} />)
               )}
             </View>
           </ScrollView>
